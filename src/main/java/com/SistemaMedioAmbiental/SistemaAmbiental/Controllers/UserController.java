@@ -1,82 +1,106 @@
 package com.SistemaMedioAmbiental.SistemaAmbiental.Controllers;
 
-import java.util.List;
-
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.validation.Valid;
 
+import com.SistemaMedioAmbiental.SistemaAmbiental.Message.request.LoginForm;
+import com.SistemaMedioAmbiental.SistemaAmbiental.Message.request.SignUpForm;
+import com.SistemaMedioAmbiental.SistemaAmbiental.Message.response.JwtResponse;
+import com.SistemaMedioAmbiental.SistemaAmbiental.Message.response.ResponseMessage;
+import com.SistemaMedioAmbiental.SistemaAmbiental.Models.Role;
+import com.SistemaMedioAmbiental.SistemaAmbiental.Models.RoleName;
+import com.SistemaMedioAmbiental.SistemaAmbiental.Models.User;
+import com.SistemaMedioAmbiental.SistemaAmbiental.Repositories.RoleRepository;
+import com.SistemaMedioAmbiental.SistemaAmbiental.Repositories.UserRepository;
+import com.SistemaMedioAmbiental.SistemaAmbiental.Security.jwt.JwtProvider;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.SistemaMedioAmbiental.SistemaAmbiental.Models.User;
-import com.SistemaMedioAmbiental.SistemaAmbiental.Repositories.UserRepository;
-import com.SistemaMedioAmbiental.SistemaAmbiental.exception.ResourceNotFoundException;
-
-
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@CrossOrigin(origins = "*", methods= {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,RequestMethod.DELETE})
-@RequestMapping("/api/v1")
+@RequestMapping("/api/auth")
 public class UserController {
+
 	@Autowired
-	private UserRepository userRepository;
+	AuthenticationManager authenticationManager;
 
-	@GetMapping("/users")
-	public List<User> getAllUsers() {
-		return userRepository.findAll();
+	@Autowired
+	UserRepository userRepository;
+
+	@Autowired
+	RoleRepository roleRepository;
+
+	@Autowired
+	PasswordEncoder encoder;
+
+	@Autowired
+	JwtProvider jwtProvider;
+
+	@PostMapping("/signin")
+	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginForm loginRequest) {
+
+		Authentication authentication = authenticationManager.authenticate(
+				new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+
+		String jwt = jwtProvider.generateJwtToken(authentication);
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+		return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getUsername(), userDetails.getAuthorities()));
 	}
 
-	@GetMapping("/users/{id}")
-	public ResponseEntity<User> getUserById(@PathVariable(value = "id") Long userId)
-			throws ResourceNotFoundException {
-		User user = userRepository.findById(userId)
-				.orElseThrow(() -> new ResourceNotFoundException("User not found for this id :: " + userId));
-		return ResponseEntity.ok().body(user);
-	}
+	@PostMapping("/signup")
+	public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpForm signUpRequest) {
+		if (userRepository.existsByUsername(signUpRequest.getUsername())) {
+			return new ResponseEntity<>(new ResponseMessage("Fail -> Username is already taken!"),
+					HttpStatus.BAD_REQUEST);
+		}
 
-	@PostMapping("/users")
-	public User createUser(@Valid @RequestBody User user) {
-		return userRepository.save(user);
-	}
+		if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+			return new ResponseEntity<>(new ResponseMessage("Fail -> Email is already in use!"),
+					HttpStatus.BAD_REQUEST);
+		}
 
-	@PutMapping("/users/{id}")
-	public ResponseEntity<User> updateUser(@PathVariable(value = "id") Long userId,
-			@Valid @RequestBody User userDetails) throws ResourceNotFoundException {
-		User user = userRepository.findById(userId)
-				.orElseThrow(() -> new ResourceNotFoundException("User not found for this id :: " + userId));
+		// Creating user's account
+		User user = new User(signUpRequest.getName(), signUpRequest.getUsername(), encoder.encode(signUpRequest.getPassword()),signUpRequest.getPasswordConfirm(), signUpRequest.getEmail(), signUpRequest.getPhone(), signUpRequest.getCi(), signUpRequest.getAddres());
 
-		user.setName(userDetails.getName());
-        user.setPassword(userDetails.getPassword());
-        user.setPasswordConfirm(userDetails.getPasswordConfirm());
-        user.setEmail(userDetails.getEmail());
-        user.setPhone(userDetails.getPhone());
-        user.setCi(userDetails.getCi());
-        user.setAddress(userDetails.getAddres());
-        user.setReferencePerson(userDetails.getReferencePerson());
-		final User updatedUser = userRepository.save(user);
-		return ResponseEntity.ok(updatedUser);
-	}
+		Set<String> strRoles = signUpRequest.getRole();
+		Set<Role> roles = new HashSet<>();
 
-	@DeleteMapping("/users/{id}")
-	public Map<String, Boolean> deleteUser(@PathVariable(value = "id") Long userId)
-			throws ResourceNotFoundException {
-		User user = userRepository.findById(userId)
-				.orElseThrow(() -> new ResourceNotFoundException("User not found for this id :: " + userId));
+		strRoles.forEach(role -> {
+			switch (role) {
+			case "admin":
+				Role adminRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
+						.orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
+				roles.add(adminRole);
 
-		userRepository.delete(user);
-		Map<String, Boolean> response = new HashMap<>();
-		response.put("deleted", Boolean.TRUE);
-		return response;
+				break;
+			default:
+				Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
+						.orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
+				roles.add(userRole);
+			}
+		});
+
+		user.setRoles(roles);
+		userRepository.save(user);
+
+		return new ResponseEntity<>(new ResponseMessage("User registered successfully!"), HttpStatus.OK);
 	}
 }

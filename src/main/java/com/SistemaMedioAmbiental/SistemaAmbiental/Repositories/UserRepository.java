@@ -1,8 +1,6 @@
 package com.SistemaMedioAmbiental.SistemaAmbiental.Repositories;
 
-import java.util.List;
-
-
+import java.util.Optional;
 
 import com.SistemaMedioAmbiental.SistemaAmbiental.Models.User;
 
@@ -11,5 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    List<User> findByCi(long ci);
+    Optional<User> findByUsername(String username);
+    Boolean existsByUsername(String username);
+    Boolean existsByEmail(String email);
 }
