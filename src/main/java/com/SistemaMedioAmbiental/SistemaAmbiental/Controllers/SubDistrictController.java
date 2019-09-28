@@ -1,5 +1,6 @@
 package com.SistemaMedioAmbiental.SistemaAmbiental.Controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,6 +39,18 @@ public class SubDistrictController {
     @GetMapping("/subDistrict/{id}")
     public Optional<SubDistrict> showSubDistrict(@PathVariable("id") Long id) {
         return subDistrictRepository.findById(id);
+    }
+
+    @GetMapping("/{id}/subDistrict")
+    public List<SubDistrict> showSubDistrictsOfDistrict(@PathVariable("id") Long id) {
+       List<SubDistrict> subDIS= subDistrictRepository.findAll();
+       List<SubDistrict> aux= new ArrayList<>();
+        for(Integer i = 0;i< subDIS.size();i++){
+            if(subDIS.get(i).getDistrict().getId() == id ){
+                aux.add(subDIS.get(i));
+            }
+        } 
+        return aux;
     }
 
     @PostMapping("/{id}/subDistrict")

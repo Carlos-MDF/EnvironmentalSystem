@@ -1,5 +1,6 @@
 package com.SistemaMedioAmbiental.SistemaAmbiental.Controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,6 +40,18 @@ public class TreeController {
     @GetMapping("/tree/{id}")
     public Tree showTrees(@PathVariable("id") Long id) {
         return treeRepository.findById(id).orElse(null);
+    }
+
+    @GetMapping("/{id}/tree")
+    public List<Tree> showTreesLocation(@PathVariable("id") Long id) {
+       List<Tree> arboles= treeRepository.findAll();
+       List<Tree> aux= new ArrayList<>();
+        for(Integer i = 0;i< arboles.size();i++){
+            if(arboles.get(i).getLocationTree().getId() == id ){
+                aux.add(arboles.get(i));
+            }
+        } 
+        return aux;
     }
 
     @PostMapping("/{id}/tree")

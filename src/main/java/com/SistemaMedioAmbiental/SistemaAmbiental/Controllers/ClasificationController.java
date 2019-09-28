@@ -1,5 +1,6 @@
 package com.SistemaMedioAmbiental.SistemaAmbiental.Controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,6 +38,18 @@ public class ClasificationController {
     @GetMapping("/clasification/{id}")
     public Optional<Clasification> showClasification(@PathVariable("id") Long id) {
         return clasificationRepository.findById(id);
+    }
+
+    @GetMapping("/{id}/clasification")
+    public List<Clasification> showClasificationsSubDistrict(@PathVariable("id") Long id) {
+       List<Clasification> clas= clasificationRepository.findAll();
+       List<Clasification> aux= new ArrayList<>();
+        for(Integer i = 0;i< clas.size();i++){
+            if(clas.get(i).getSubDistrict().getId() == id ){
+                aux.add(clas.get(i));
+            }
+        } 
+        return aux;
     }
 
     @PostMapping("/{id}/clasification")

@@ -1,5 +1,6 @@
 package com.SistemaMedioAmbiental.SistemaAmbiental.Controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,6 +41,18 @@ public class SubClasificationController {
     @GetMapping("/subClasification/{id}")
     public Optional<SubClasification> showSubClasification(@PathVariable("id") Long id) {
         return subClasificationRepository.findById(id);
+    }
+
+    @GetMapping("/{id}/subClasification")
+    public List<SubClasification> showSubClassesClasification(@PathVariable("id") Long id) {
+       List<SubClasification> subclas= subClasificationRepository.findAll();
+       List<SubClasification> aux= new ArrayList<>();
+        for(Integer i = 0;i< subclas.size();i++){
+            if(subclas.get(i).getClasification().getId() == id ){
+                aux.add(subclas.get(i));
+            }
+        } 
+        return aux;
     }
 
     @PostMapping("/{id}/subClasification")
