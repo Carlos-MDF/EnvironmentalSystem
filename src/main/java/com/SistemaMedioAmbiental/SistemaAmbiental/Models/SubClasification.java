@@ -17,6 +17,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+
 @Entity
 @Table(name = "subClasifications", uniqueConstraints = {
         @UniqueConstraint(columnNames = {
@@ -27,25 +31,29 @@ import org.hibernate.annotations.OnDeleteAction;
         })
 })
 
+@ApiModel(description = "All details about a sub-classification. ")
 public class SubClasification {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @ApiModelProperty(notes = "The database generated sub-classification ID")
     private Long id;
    
-    
     @Size(min=3, max = 50)
     @Column(name = "name")
+    @ApiModelProperty(notes = "The name of the sub-classification")
     private String name;
 
     @Size(min=3, max = 50)
     @Column(name = "information")
+    @ApiModelProperty(notes = "Information about the sub-classification, can be any notes")
     private String information;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "clasification_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @ApiModelProperty(notes = "The classification this sub-classification belongs to")
     private Clasification clasification;
 
 

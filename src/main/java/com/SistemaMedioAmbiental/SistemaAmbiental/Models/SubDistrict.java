@@ -17,6 +17,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 @Entity
 @Table(name = "subDistricts", uniqueConstraints = {
         @UniqueConstraint(columnNames = {
@@ -27,28 +30,34 @@ import org.hibernate.annotations.OnDeleteAction;
         })
 })
 
+@ApiModel(description = "All details about a sub-district. ")
 public class SubDistrict {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @ApiModelProperty(notes = "The database generated sub-district ID")
     private Long id;
 
     @Size(min = 3, max = 50)
     @Column(name = "name")
+    @ApiModelProperty(notes = "The name of the sub-district")
     private String name;
 
     @Size(min = 1, max = 50)
     @Column(name = "cod")
+    @ApiModelProperty(notes = "The code/number assigned to this sub-district by authorities")
     private String cod;
 
     @Size(min = 3, max = 50)
     @Column(name = "information")
+    @ApiModelProperty(notes = "Information about the sub-district, can be any notes")
     private String information;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subDistrict_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @ApiModelProperty(notes = "The district this sub-district belongs to")
     private District district;
 
     public SubDistrict() {

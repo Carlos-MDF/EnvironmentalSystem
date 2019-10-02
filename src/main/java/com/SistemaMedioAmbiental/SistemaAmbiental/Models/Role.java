@@ -11,16 +11,22 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.NaturalId;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 @Entity
 @Table(name = "roles")
+@ApiModel(description = "All details about the role users can have")
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ApiModelProperty(notes = "The database generated role ID")
     private Long id;
 
     @Enumerated(EnumType.STRING)
     @NaturalId
     @Column(length = 60)
+    @ApiModelProperty(notes = "The name of the role")
     private RoleName name;
 
     public Role() {}

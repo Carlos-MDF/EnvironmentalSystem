@@ -19,6 +19,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 @Entity
 @Table(name = "trees", uniqueConstraints = {
@@ -30,49 +32,57 @@ import org.hibernate.annotations.OnDeleteAction;
         })
 })
 
+@ApiModel(description = "All details about a tree. ")
 public class Tree {
  
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @ApiModelProperty(notes = "The database generated tree ID")
     private Long id;
    
-    
     @Size(min=3, max = 50)
     @Column(name = "codeTree")
+    @ApiModelProperty(notes = "The code assigned to a tree by authorities")
     private String codeTree;
    
     
     @Size(min=3, max = 50)
     @Column(name = "commonName")
+    @ApiModelProperty(notes = "The common name this tree is referred as")
     private String commonName;
   
     
     @Size(min=6, max = 100)
     @Column(name = "scientificName")
+    @ApiModelProperty(notes = "The scientific name of the tree")
     private String scientificName;
    
-    
-
     @Column(name = "treeHeight")
+    @ApiModelProperty(notes = "The height of the tree")
     private Integer treeHeight;
   
     @Column(name = "cupSize")
+    @ApiModelProperty(notes = "The size of this tree's cup")
     private Integer cupSize;
   
     @Column(name = "silviTreatPer")
+    @ApiModelProperty(notes = "The treatment this tree must undergo")
     private String silviTreatPer;
   
     @Size(min=6, max = 100)
     @Column(name = "silviTreatSugg")
+    @ApiModelProperty(notes = "The suggested treatment this tree should be given")
     private String silviTreatSugg;
 
     @Column(name = "responsable")
+    @ApiModelProperty(notes = "the person responsible for this tree")
     private String responsable;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "locationTree_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @ApiModelProperty(notes = "The information about this tree's location")
     private LocationTree locationTree;
 
     public Tree() {

@@ -9,6 +9,9 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 @Entity
 @Table(name = "districts", uniqueConstraints = {
         @UniqueConstraint(columnNames = {
@@ -19,19 +22,24 @@ import javax.validation.constraints.Size;
         })
 })
 
+@ApiModel(description = "All details about a District. ")
 public class District {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @ApiModelProperty(notes = "The database generated district ID")
+
     private Long id;
 
     @Size(min = 1, max = 50)
     @Column(name = "name")
+    @ApiModelProperty(notes = "The name of the district")
     private String name;
 
 
     @Size(min = 3, max = 50)
     @Column(name = "information")
+    @ApiModelProperty(notes = "The information of a district")
     private String information;
 
     

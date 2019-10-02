@@ -17,6 +17,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 @Entity
 @Table(name = "locationTrees", uniqueConstraints = {
         @UniqueConstraint(columnNames = {
@@ -27,25 +30,31 @@ import org.hibernate.annotations.OnDeleteAction;
         })
 })
 
+@ApiModel(description = "All details about a Location of a tree. ")
 public class LocationTree {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @ApiModelProperty(notes = "The database generated location ID")
     private Long id;
    
     
     @Size(min=3, max = 50)
     @Column(name = "name")
+    @ApiModelProperty(notes = "The name of the Location")
     private String name;
 
     @Size(min=3, max = 50)
     @Column(name = "information")
+    @ApiModelProperty(notes = "Information about the location of a tree, can be any notes")
+
     private String information;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subClasification_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @ApiModelProperty(notes = "The sub-classification this location belongs to")
     private SubClasification subClasification;
 
 

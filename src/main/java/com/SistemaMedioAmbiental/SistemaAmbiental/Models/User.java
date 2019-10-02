@@ -21,6 +21,8 @@ import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.NaturalId;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 @Entity
 @Table(name = "users", uniqueConstraints = {
@@ -31,30 +33,37 @@ import org.hibernate.annotations.NaturalId;
           "email"
         })
 })
+
+@ApiModel(description = "All details about a user. ")
 public class User {
  
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
+  @ApiModelProperty(notes = "The database generated user ID")
   private Long id;
  
   @NotBlank
   @Size(min=3, max = 50)
   @Column(name = "name")
+  @ApiModelProperty(notes = "The real name of the user")
   private String name;
  
   @NotBlank
   @Size(min=3, max = 50)
   @Column(name = "username")
+  @ApiModelProperty(notes = "The username the user created for this account")
   private String username;
 
   @NotBlank
   @Size(min=6, max = 100)
   @Column(name = "password")
+  @ApiModelProperty(notes = "The password of this user's account")
   private String password;
  
   @NotBlank
   @Size(min=6, max = 100)
   @Column(name = "passwordConfirm")
+  @ApiModelProperty(notes = "The confirmation of the user's password, must exactly match the password")
   private String passwordConfirm;
 
   @NaturalId
@@ -62,23 +71,30 @@ public class User {
   @Size(max = 50)
   @Email
   @Column(name = "email")
+  @ApiModelProperty(notes = "The email of the user")
+
   private String email;
 
   @Size(min=3, max = 50)
   @Column(name = "phone")
+  @ApiModelProperty(notes = "The mobile or fixed user's telephone number")
   private String phone;
 
   @Column(name = "ci")
+  @ApiModelProperty(notes = "The number of the user's identity card")
   private Long ci;
 
   @Size(min=6, max = 100)
   @Column(name = "address")
+  @ApiModelProperty(notes = "The user's home/work address")
   private String address;
 
   @ManyToMany(fetch = FetchType.LAZY)
   @JoinTable(name = "user_roles", 
     joinColumns = @JoinColumn(name = "user_id"), 
     inverseJoinColumns = @JoinColumn(name = "role_id"))
+  @ApiModelProperty(notes = "The role or roles this user has")
+
   private Set<Role> roles = new HashSet<>();
 
 

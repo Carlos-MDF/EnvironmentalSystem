@@ -21,9 +21,16 @@ import com.SistemaMedioAmbiental.SistemaAmbiental.Models.SubDistrict;
 import com.SistemaMedioAmbiental.SistemaAmbiental.Repositories.DistrictRepository;
 import com.SistemaMedioAmbiental.SistemaAmbiental.Repositories.SubDistrictRepository;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api")
+@Api(value = "Sub-District Management", description = "Operations pertaining to Sub-districts in Sub-district Management")
+
 public class SubDistrictController {
     @Autowired
     SubDistrictRepository subDistrictRepository;
@@ -31,16 +38,29 @@ public class SubDistrictController {
     @Autowired
     DistrictRepository districtRepository;
 
+    @ApiOperation(value = "View a list of available sub-districts", response = List.class)
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Successfully retrieved list of sub-districts"),
+        @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+        @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+        @ApiResponse(code = 404, message = "The resource you were trying to reach has not been found") })
     @GetMapping("/subDistrict")
     public List<SubDistrict> showSubDistrict() {
         return subDistrictRepository.findAll();
     }
 
+    @ApiOperation(value = "Get a sub-district by Id")
     @GetMapping("/subDistrict/{id}")
     public Optional<SubDistrict> showSubDistrict(@PathVariable("id") Long id) {
         return subDistrictRepository.findById(id);
     }
 
+    @ApiOperation(value = "View a list of sub-districts of it's respective district", response = List.class)
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Successfully retrieved list of sub-districts"),
+        @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+        @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+        @ApiResponse(code = 404, message = "The resource you were trying to reach has not been found") })
     @GetMapping("/{id}/subDistrict")
     public List<SubDistrict> showSubDistrictsOfDistrict(@PathVariable("id") Long id) {
        List<SubDistrict> subDIS= subDistrictRepository.findAll();
@@ -53,6 +73,7 @@ public class SubDistrictController {
         return aux;
     }
 
+    @ApiOperation(value = "Add a sub-district")
     @PostMapping("/{id}/subDistrict")
     @ResponseStatus(HttpStatus.CREATED)
     public SubDistrict create(@RequestBody SubDistrict sd,@PathVariable("id") Long id) {
@@ -62,6 +83,7 @@ public class SubDistrictController {
         }).orElseThrow(() -> new ResourceNotFoundException("Sub District " + id + " not found"));
     }
 
+    @ApiOperation(value = "Update a sub-district")
     @PutMapping("/subDistrict/{id}")
     @ResponseStatus(HttpStatus.OK)
     public SubDistrict update(@PathVariable( "id" ) Long id, @RequestBody SubDistrict sd) {
@@ -75,6 +97,7 @@ public class SubDistrictController {
                 }).orElseThrow(() -> new ResourceNotFoundException("Sub District not found with id " + id));
     }
     
+    @ApiOperation(value = "Delete a sub-district")
     @DeleteMapping(value = "/subDistrict/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void delete(@PathVariable("id") Long id) {

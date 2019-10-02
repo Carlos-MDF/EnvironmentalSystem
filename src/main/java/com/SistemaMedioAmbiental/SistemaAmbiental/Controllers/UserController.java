@@ -31,9 +31,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth")
+
+@Api(value = "User Management", description = "Operations pertaining to user in User Management")
 public class UserController {
 
 	@Autowired
@@ -51,6 +56,7 @@ public class UserController {
 	@Autowired
 	JwtProvider jwtProvider;
 
+	@ApiOperation(value = "Login a user to a created account")
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginForm loginRequest) {
 
@@ -65,6 +71,7 @@ public class UserController {
 		return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getUsername(), userDetails.getAuthorities()));
 	}
 
+	@ApiOperation(value = "Create a user account")
 	@PostMapping("/signup")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpForm signUpRequest) {
 		if (userRepository.existsByUsername(signUpRequest.getUsername())) {

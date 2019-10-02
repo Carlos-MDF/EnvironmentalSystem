@@ -17,14 +17,20 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
 import com.SistemaMedioAmbiental.SistemaAmbiental.Message.Exception.ResourceNotFoundException;
-import com.SistemaMedioAmbiental.SistemaAmbiental.Models.Clasification;
 import com.SistemaMedioAmbiental.SistemaAmbiental.Models.SubClasification;
 import com.SistemaMedioAmbiental.SistemaAmbiental.Repositories.ClasificationRepository;
 import com.SistemaMedioAmbiental.SistemaAmbiental.Repositories.SubClasificationRepository;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api")
+@Api(value = "Sub-Classification Management", description = "Operations pertaining to Sub-classifications in Sub-Classification Management")
+
 public class SubClasificationController {
     @Autowired
     SubClasificationRepository subClasificationRepository;
@@ -32,17 +38,29 @@ public class SubClasificationController {
     @Autowired
     ClasificationRepository clasificationRepository;
 
-
+    @ApiOperation(value = "View a list of available sub-classifications", response = List.class)
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Successfully retrieved list of sub-classifications"),
+        @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+        @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+        @ApiResponse(code = 404, message = "The resource you were trying to reach has not been found") })
     @GetMapping("/subClasification")
     public List<SubClasification> showSubClasification() {
         return subClasificationRepository.findAll();
     }
 
+    @ApiOperation(value = "Get a sub-classification by Id")
     @GetMapping("/subClasification/{id}")
     public Optional<SubClasification> showSubClasification(@PathVariable("id") Long id) {
         return subClasificationRepository.findById(id);
     }
 
+    @ApiOperation(value = "View a list of sub-classifications of it's respective classification", response = List.class)
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Successfully retrieved list of sub-classifications"),
+        @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+        @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+        @ApiResponse(code = 404, message = "The resource you were trying to reach has not been found") })
     @GetMapping("/{id}/subClasification")
     public List<SubClasification> showSubClassesClasification(@PathVariable("id") Long id) {
        List<SubClasification> subclas= subClasificationRepository.findAll();
@@ -55,6 +73,7 @@ public class SubClasificationController {
         return aux;
     }
 
+    @ApiOperation(value = "Add a sub-classification")
     @PostMapping("/{id}/subClasification")
     @ResponseStatus(HttpStatus.CREATED)
     public SubClasification create(@RequestBody SubClasification sb,@PathVariable("id") Long id) {
@@ -64,6 +83,7 @@ public class SubClasificationController {
         }).orElseThrow(() -> new ResourceNotFoundException("Clasification " + id + " not found"));
     }
 
+    @ApiOperation(value = "Update a sub-classification")
     @PutMapping("/subClasification/{id}")
     @ResponseStatus(HttpStatus.OK)
     public SubClasification update(@PathVariable( "id" ) Long id, @RequestBody SubClasification sb) {
@@ -77,6 +97,7 @@ public class SubClasificationController {
                 }).orElseThrow(() -> new ResourceNotFoundException("Sub Clasification not found with id " + id));
     }
     
+    @ApiOperation(value = "Delete a sub-classification")
     @DeleteMapping(value = "/subClasification/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void delete(@PathVariable("id") Long id) {

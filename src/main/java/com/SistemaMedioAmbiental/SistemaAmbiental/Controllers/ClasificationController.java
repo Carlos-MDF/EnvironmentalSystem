@@ -15,31 +15,53 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
 import org.springframework.http.HttpStatus;
 import com.SistemaMedioAmbiental.SistemaAmbiental.Message.Exception.ResourceNotFoundException;
 import com.SistemaMedioAmbiental.SistemaAmbiental.Models.Clasification;
 import com.SistemaMedioAmbiental.SistemaAmbiental.Repositories.ClasificationRepository;
 import com.SistemaMedioAmbiental.SistemaAmbiental.Repositories.SubDistrictRepository;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api")
+@Api(value = "Clasification Management", description = "Operations pertaining to classifications in Classification Management")
+
 public class ClasificationController {
     @Autowired
     ClasificationRepository clasificationRepository;
     @Autowired
     SubDistrictRepository subDistrictRepository;
 
+
+    @ApiOperation(value = "View a list of available classifications", response = List.class)
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Successfully retrieved list of classifications"),
+        @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+        @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+        @ApiResponse(code = 404, message = "The resource you were trying to reach has not been found") })
     @GetMapping("/clasification")
     public List<Clasification> showClasification() {
         return clasificationRepository.findAll();
     }
 
+    @ApiOperation(value = "Get a classification by Id")
     @GetMapping("/clasification/{id}")
     public Optional<Clasification> showClasification(@PathVariable("id") Long id) {
         return clasificationRepository.findById(id);
     }
 
+    @ApiOperation(value = "View a list of classifications of it's respective subdistrict", response = List.class)
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Successfully retrieved list of classifications"),
+        @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+        @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+        @ApiResponse(code = 404, message = "The resource you were trying to reach has not been found") })
     @GetMapping("/{id}/clasification")
     public List<Clasification> showClasificationsSubDistrict(@PathVariable("id") Long id) {
        List<Clasification> clas= clasificationRepository.findAll();
@@ -52,6 +74,7 @@ public class ClasificationController {
         return aux;
     }
 
+    @ApiOperation(value = "Add a classification")
     @PostMapping("/{id}/clasification")
     @ResponseStatus(HttpStatus.CREATED)
     public Clasification create(@RequestBody Clasification cl,@PathVariable("id") Long id) {
@@ -61,6 +84,7 @@ public class ClasificationController {
         }).orElseThrow(() -> new ResourceNotFoundException("Sub District " + id + " not found"));
     }
 
+    @ApiOperation(value = "Update a classification")
     @PutMapping("/clasification/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Clasification update(@PathVariable( "id" ) Long id, @RequestBody Clasification cl) {
@@ -74,6 +98,7 @@ public class ClasificationController {
                 }).orElseThrow(() -> new ResourceNotFoundException("Clasification not found with id " + id));
     }
     
+    @ApiOperation(value = "Delete a classification")
     @DeleteMapping(value = "/clasification/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void delete(@PathVariable("id") Long id) {

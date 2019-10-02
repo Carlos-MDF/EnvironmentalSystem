@@ -2,9 +2,7 @@ package com.SistemaMedioAmbiental.SistemaAmbiental.Controllers;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-import com.SistemaMedioAmbiental.SistemaAmbiental.Models.LocationTree;
 import com.SistemaMedioAmbiental.SistemaAmbiental.Models.Tree;
 import com.SistemaMedioAmbiental.SistemaAmbiental.Repositories.LocationTreeRepository;
 import com.SistemaMedioAmbiental.SistemaAmbiental.Repositories.TreeRepository;
@@ -22,9 +20,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api")
+@Api(value = "Tree Management", description = "Operations pertaining to tree in Tree Management")
 public class TreeController {
 
     @Autowired
@@ -32,16 +36,31 @@ public class TreeController {
     @Autowired
     LocationTreeRepository locationTreeRepository;
 
+    @ApiOperation(value = "View a list of available trees", response = List.class)
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Successfully retrieved list of trees"),
+        @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+        @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+        @ApiResponse(code = 404, message = "The resource you were trying to reach has not been found")
+    })
     @GetMapping("/tree")
     public List<Tree> showTree() {
         return treeRepository.findAll();
     }
 
+    @ApiOperation(value = "Get a tree by Id")
     @GetMapping("/tree/{id}")
     public Tree showTrees(@PathVariable("id") Long id) {
         return treeRepository.findById(id).orElse(null);
     }
 
+    
+    @ApiOperation(value = "View a list of the tress in their respective location", response = List.class)
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Successfully retrieved list"),
+        @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+        @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+        @ApiResponse(code = 404, message = "The resource you were trying to reach is not found") })
     @GetMapping("/{id}/tree")
     public List<Tree> showTreesLocation(@PathVariable("id") Long id) {
        List<Tree> arboles= treeRepository.findAll();
@@ -54,6 +73,7 @@ public class TreeController {
         return aux;
     }
 
+    @ApiOperation(value = "Add a tree")
     @PostMapping("/{id}/tree")
     @ResponseStatus(HttpStatus.CREATED)
     public Tree create(@RequestBody Tree tree,@PathVariable("id") Long id) {
@@ -63,6 +83,7 @@ public class TreeController {
         }).orElseThrow(() -> new ResourceNotFoundException("Location Tree " + id + " not found"));    
     }
 
+    @ApiOperation(value = "Update a tree")
     @PutMapping("/tree/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Tree update(@PathVariable( "id" ) Long id, @RequestBody Tree t) {
@@ -81,6 +102,7 @@ public class TreeController {
                 }).orElseThrow(() -> new ResourceNotFoundException("Tree not found with id " + id));
     }
     
+    @ApiOperation(value = "Delete a tree")
     @DeleteMapping(value = "/tree/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void delete(@PathVariable("id") Long id) {
