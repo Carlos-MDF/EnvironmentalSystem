@@ -87,7 +87,7 @@ public class UserController {
 		// Creating user's account
 		User user = new User(signUpRequest.getName(), signUpRequest.getUsername(), encoder.encode(signUpRequest.getPassword()),signUpRequest.getPasswordConfirm(), signUpRequest.getEmail(), signUpRequest.getPhone(), signUpRequest.getCi(), signUpRequest.getAddres());
 
-		Set<String> strRoles = signUpRequest.getRole();
+		/*Set<String> strRoles = signUpRequest.getRole();
 		Set<Role> roles = new HashSet<>();
 
 		strRoles.forEach(role -> {
@@ -103,9 +103,9 @@ public class UserController {
 						.orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
 				roles.add(userRole);
 			}
-		});
+		});*/
 
-		user.setRoles(roles);
+		//user.setRoles(roles);
 		userRepository.save(user);
 
 		return new ResponseEntity<>(new ResponseMessage("User registered successfully!"), HttpStatus.OK);
