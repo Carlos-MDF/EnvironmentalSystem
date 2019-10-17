@@ -85,7 +85,7 @@ public class DistrictController {
 
     //email test
 
-    @ApiOperation(value = "Add a district")
+    @ApiOperation(value = "Send a test email")
     @PostMapping("/district/email")
     @ResponseStatus(HttpStatus.OK)
     public void sendEmail() {
