@@ -19,6 +19,8 @@ import com.SistemaMedioAmbiental.SistemaAmbiental.Security.jwt.JwtProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -33,6 +35,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -55,6 +60,9 @@ public class UserController {
 
 	@Autowired
 	JwtProvider jwtProvider;
+	
+    @Autowired
+    private JavaMailSender javaMailSender;
 
 	@ApiOperation(value = "Login a user to a created account")
 	@PostMapping("/signin")
@@ -107,7 +115,16 @@ public class UserController {
 
 		user.setRoles(roles);
 		userRepository.save(user);
+		//SEND TEST EMAIL
+        SimpleMailMessage msg = new SimpleMailMessage();
+        msg.setTo("carlosterceros11@gmail.com");
 
+        msg.setSubject("Testing from Spring Boot");
+        msg.setText("Hello World \n Spring Boot Email \n Posdata: eres gei .-.XD");
+
+        javaMailSender.send(msg);
+		/////////////////////////
+    
 		return new ResponseEntity<>(new ResponseMessage("User registered successfully!"), HttpStatus.OK);
 	}
 }
