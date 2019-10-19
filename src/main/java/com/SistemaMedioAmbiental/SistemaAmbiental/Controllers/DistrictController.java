@@ -3,7 +3,14 @@ package com.SistemaMedioAmbiental.SistemaAmbiental.Controllers;
 import java.util.List;
 import java.util.Optional;
 
+import com.SistemaMedioAmbiental.SistemaAmbiental.Message.Exception.ResourceNotFoundException;
+import com.SistemaMedioAmbiental.SistemaAmbiental.Models.District;
+import com.SistemaMedioAmbiental.SistemaAmbiental.Repositories.DistrictRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,12 +21,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.http.HttpStatus;
-import com.SistemaMedioAmbiental.SistemaAmbiental.Message.Exception.ResourceNotFoundException;
-
-import com.SistemaMedioAmbiental.SistemaAmbiental.Models.District;
-
-import com.SistemaMedioAmbiental.SistemaAmbiental.Repositories.DistrictRepository;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -34,6 +35,9 @@ import io.swagger.annotations.ApiResponses;
 public class DistrictController {
     @Autowired
     DistrictRepository districtRepository;
+
+    @Autowired
+    private JavaMailSender javaMailSender;
 
     @ApiOperation(value = "View a list of available districts", response = List.class)
     @ApiResponses(value = {
@@ -77,5 +81,19 @@ public class DistrictController {
     @ResponseStatus(HttpStatus.OK)
     public void delete(@PathVariable("id") Long id) {
         districtRepository.deleteById(id);
+    }
+
+    //email test
+    void sendEmail() {
+
+        SimpleMailMessage msg = new SimpleMailMessage();
+        //msg.setTo("to_1@gmail.com", "to_2@gmail.com", "to_3@yahoo.com");
+        msg.setTo("carlosterceros11@gmail.com");
+
+        msg.setSubject("Testing from Spring Boot");
+        msg.setText("Hello World \n Spring Boot Email \n posdata: eres gei .-.XD");
+
+        javaMailSender.send(msg);
+
     }
 }
