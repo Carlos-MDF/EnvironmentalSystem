@@ -120,7 +120,7 @@ public class UserController {
         msg.setTo("carlosterceros11@gmail.com");
 
         msg.setSubject("Testing from Spring Boot");
-        msg.setText("Hello World \n Spring Boot Email \n Posdata: eres gei .-.XD");
+        msg.setText("Hello World \n Spring Boot Email \n equisde");
 
         javaMailSender.send(msg);
 		/////////////////////////
