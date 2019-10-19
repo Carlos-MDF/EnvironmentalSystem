@@ -9,8 +9,6 @@ import com.SistemaMedioAmbiental.SistemaAmbiental.Repositories.DistrictRepositor
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,9 +33,6 @@ import io.swagger.annotations.ApiResponses;
 public class DistrictController {
     @Autowired
     DistrictRepository districtRepository;
-
-    @Autowired
-    private JavaMailSender javaMailSender;
 
     @ApiOperation(value = "View a list of available districts", response = List.class)
     @ApiResponses(value = {
@@ -83,20 +78,4 @@ public class DistrictController {
         districtRepository.deleteById(id);
     }
 
-    //email test
-
-    @ApiOperation(value = "Send a test email")
-    @PostMapping("/district/email")
-    @ResponseStatus(HttpStatus.OK)
-    public void sendEmail() {
-
-        SimpleMailMessage msg = new SimpleMailMessage();
-        msg.setTo("jaxnitro123@gmail.com");
-
-        msg.setSubject("Testing from Spring Boot");
-        msg.setText("Hello World \n Spring Boot Email");
-
-        javaMailSender.send(msg);
-
-    }
 }
