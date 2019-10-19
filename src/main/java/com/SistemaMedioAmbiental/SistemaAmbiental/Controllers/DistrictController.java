@@ -84,14 +84,17 @@ public class DistrictController {
     }
 
     //email test
-    void sendEmail() {
+
+    @ApiOperation(value = "Send a test email")
+    @PostMapping("/district/email")
+    @ResponseStatus(HttpStatus.OK)
+    public void sendEmail() {
 
         SimpleMailMessage msg = new SimpleMailMessage();
-        //msg.setTo("to_1@gmail.com", "to_2@gmail.com", "to_3@yahoo.com");
         msg.setTo("carlosterceros11@gmail.com");
 
         msg.setSubject("Testing from Spring Boot");
-        msg.setText("Hello World \n Spring Boot Email \n posdata: eres gei .-.XD");
+        msg.setText("Hello World \n Spring Boot Email \n Posdata: eres gei .-.XD");
 
         javaMailSender.send(msg);
 
