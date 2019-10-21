@@ -94,8 +94,7 @@ public class TreeController {
                     tree.setCommonName(t.getCommonName());
                     tree.setScientificName(t.getScientificName());
                     tree.setTreeHeight(t.getTreeHeight());
-                    tree.setSilviTreatPer(t.getSilviTreatPer());
-                    tree.setSilviTreatSugg(t.getSilviTreatSugg());
+                    tree.setSpecies(t.getSpecies());
                     tree.setResponsable(t.getResponsable());
                     tree.setLocationTree(t.getLocationTree());
                     return treeRepository.save(tree);

@@ -40,13 +40,13 @@ public class ComplaintController {
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach has not been found") })
     @GetMapping("/complaint")
-    public List<Complaint> showClasification() {
+    public List<Complaint> showComplaints() {
         return complaintRepository.findAll();
     }
 
     @ApiOperation(value = "Get a complaint by Id")
     @GetMapping("/complaint/{id}")
-    public Optional<Complaint> showClasification(@PathVariable("id") Long id) {
+    public Optional<Complaint> showComplaint(@PathVariable("id") Long id) {
         return complaintRepository.findById(id);
     }
 
@@ -77,6 +77,4 @@ public class ComplaintController {
     public void delete(@PathVariable("id") Long id) {
         complaintRepository.deleteById(id);
     }
-
-
 }

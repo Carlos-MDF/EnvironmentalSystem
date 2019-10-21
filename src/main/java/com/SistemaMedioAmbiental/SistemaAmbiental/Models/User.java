@@ -89,6 +89,10 @@ public class User {
   @ApiModelProperty(notes = "The user's home/work address")
   private String address;
 
+  @Column(name = "status")
+  @ApiModelProperty(notes = "The user's profile status")
+  private Boolean status;
+
   @ManyToMany(fetch = FetchType.LAZY)
   @JoinTable(name = "user_roles", 
     joinColumns = @JoinColumn(name = "user_id"), 
@@ -184,7 +188,7 @@ public class User {
 
  //Direccion
 
- public String getAddres(){
+ public String getAddress(){
    return this.address;
  }
 
@@ -200,6 +204,15 @@ public class User {
 
 public void setRoles(Set<Role> roles) {
   this.roles = roles;
+}
+
+//Status
+public Boolean getStatus(){
+  return status;
+}
+
+public void setStatus(Boolean status) {
+  this.status = status;
 }
 
  @Override

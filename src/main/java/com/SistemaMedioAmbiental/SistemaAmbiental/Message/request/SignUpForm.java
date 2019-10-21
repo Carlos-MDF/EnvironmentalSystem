@@ -37,6 +37,8 @@ public class SignUpForm {
     @Size(min=6, max = 100)
     private String address;
 
+    private Boolean status;
+
     public String getName() {
         return name;
     }
@@ -101,7 +103,7 @@ public class SignUpForm {
         this.ci = ci;
     }
 
-    public String getAddres(){
+    public String getAddress(){
         return this.address;
     }
      
@@ -109,4 +111,11 @@ public class SignUpForm {
         this.address = address;
     }
 
+    public Boolean getStatus() {
+        return this.status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
+    }
 }

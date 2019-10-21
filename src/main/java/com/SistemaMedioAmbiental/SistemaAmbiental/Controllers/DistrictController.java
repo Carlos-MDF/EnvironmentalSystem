@@ -43,6 +43,7 @@ public class DistrictController {
     @GetMapping("/district")
     public List<District> showClasification() {
         return districtRepository.findAll();
+       
     }
 
     @ApiOperation(value = "Get a district by Id")
@@ -56,6 +57,7 @@ public class DistrictController {
     @ResponseStatus(HttpStatus.CREATED)
     public District create(@RequestBody District ds) {
         return districtRepository.save(ds);
+         
     }
 
     @ApiOperation(value = "Update a district")
@@ -78,4 +80,5 @@ public class DistrictController {
         districtRepository.deleteById(id);
     }
 
+    
 }

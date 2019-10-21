@@ -63,15 +63,10 @@ public class Tree {
     @Column(name = "cupSize")
     @ApiModelProperty(notes = "The size of this tree's cup")
     private Integer cupSize;
-  
-    @Column(name = "silviTreatPer")
-    @ApiModelProperty(notes = "The treatment this tree must undergo")
-    private String silviTreatPer;
-  
-    @Size(min=6, max = 100)
-    @Column(name = "silviTreatSugg")
-    @ApiModelProperty(notes = "The suggested treatment this tree should be given")
-    private String silviTreatSugg;
+
+    @Column(name = "species")
+    @ApiModelProperty(notes = "The species to which the tree belongs")
+    private String species;
 
     @Column(name = "responsable")
     @ApiModelProperty(notes = "the person responsible for this tree")
@@ -87,14 +82,13 @@ public class Tree {
     public Tree() {
     }
    
-    public Tree(String codeTree, String commonName, String scientificName, Integer treeHeight, Integer cupSize, String silviTreatPer, String silviTreatSugg, String responsable, LocationTree locationTree) {
+    public Tree(String codeTree, String commonName, String scientificName, Integer treeHeight, Integer cupSize, String responsable, String species, LocationTree locationTree) {
       this.codeTree = codeTree;
       this.commonName = commonName;
       this.scientificName = scientificName;
       this.treeHeight = treeHeight;
       this.cupSize = cupSize;
-      this.silviTreatPer = silviTreatPer;
-      this.silviTreatSugg = silviTreatSugg;
+      this.species = species;
       this.responsable = responsable;
       this.locationTree = locationTree;
     }
@@ -148,26 +142,6 @@ public class Tree {
       public void setCupSize(Integer cupSize){
         this.cupSize = cupSize;
       }
-    
-      //Tratamientos silviculturales Realizados
-    
-      public String getSilviTreatPer(){
-        return this.silviTreatPer;
-     }
-    
-     public void setSilviTreatPer(String silviTreatPer){
-       this.silviTreatPer = silviTreatPer;
-     }
-    
-     //Tratamientos silviculturales sugeridos
-    
-     public String getSilviTreatSugg(){
-       return this.silviTreatSugg;
-     }
-    
-     public void setSilviTreatSugg(String silviTreatSugg){
-       this.silviTreatSugg = silviTreatSugg;
-     }
 
      // Responsable del Arbol
      public void setResponsable(String responsable) {
@@ -177,6 +151,16 @@ public class Tree {
     public String getResponsable() {
       return this.responsable;
     }
+
+    //Especie del Arbol
+    public void setSpecies(String species) {
+      this.species = species;
+    }
+
+    public String getSpecies() {
+      return this.species;
+    }
+
     //locationTreeId
     public void setLocationTree(LocationTree l) {
       this.locationTree=l;
@@ -188,7 +172,6 @@ public class Tree {
 
      @Override
     public String toString() {
-        return "Tree [id=" + id + ", codeTree=" + codeTree + ", commonName=" + commonName + ", scientificName=" + scientificName + ", treeHeight=" + treeHeight + ", cupSize=" + cupSize + ", silviTreatPer=" + silviTreatPer 
-       + ", silviTreatSugg=" + silviTreatSugg + ", responsable:" + responsable + ", locationTree" + locationTree +"]";
+        return "Tree [id=" + id + ", codeTree=" + codeTree + ", commonName=" + commonName + ", scientificName=" + scientificName + ", treeHeight=" + treeHeight + ", cupSize=" + cupSize + ", species=" + species + ", responsable:" + responsable + ", locationTree" + locationTree +"]";
     }
 }
