@@ -42,6 +42,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -159,8 +161,21 @@ public class UserController {
 		userRepository.deleteById(id);
 	}
 
-	@GetMapping("/user")
-    public List<User> showUser() {
+	@ApiOperation(value = "View a list of available users", response = List.class)
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Successfully retrieved list of trees"),
+        @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+        @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+        @ApiResponse(code = 404, message = "The resource you were trying to reach has not been found")
+    })
+	@GetMapping("/users")
+    public List<User> showUsers() {
         return userRepository.findAll();
+	}
+	
+	@ApiOperation(value = "Get a user by Id")
+    @GetMapping("/user/{id}")
+    public User showUser(@PathVariable("id") Long id) {
+        return userRepository.findById(id).orElse(null);
     }
 }

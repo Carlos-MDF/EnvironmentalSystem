@@ -13,7 +13,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 @Entity
-@Table(name = "complaint", uniqueConstraints = {
+@Table(name = "complaints", uniqueConstraints = {
         @UniqueConstraint(columnNames = {
           "whistleblower"
         }),
