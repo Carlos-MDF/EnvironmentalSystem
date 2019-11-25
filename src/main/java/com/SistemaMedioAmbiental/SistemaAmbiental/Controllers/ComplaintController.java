@@ -64,7 +64,7 @@ public class ComplaintController {
         
         return complaintRepository.findById(id)
                 .map(clT -> {
-                    clT.setWhistleblower(cl.geWhistleblower());
+                    clT.setWhistleblower(cl.getWhistleblower());
                     clT.setInformation(cl.getInformation());
                     clT.setType(cl.getType());
                     return complaintRepository.save(cl);

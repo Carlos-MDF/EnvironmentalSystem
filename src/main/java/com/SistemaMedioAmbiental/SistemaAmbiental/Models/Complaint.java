@@ -63,7 +63,7 @@ public class Complaint {
         this.whistleblower = whistleblower;
       }
      
-      public String geWhistleblower() {
+      public String getWhistleblower() {
         return this.whistleblower;
       }
 
