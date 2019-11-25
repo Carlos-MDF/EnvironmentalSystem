@@ -7,7 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-import javax.validation.constraints.Size;
+
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -15,10 +15,10 @@ import io.swagger.annotations.ApiModelProperty;
 @Entity
 @Table(name = "complaints", uniqueConstraints = {
         @UniqueConstraint(columnNames = {
-          "whistleblower"
+          "information"
         }),
         @UniqueConstraint(columnNames = {
-          "type"
+          "id"
         })
 })
 
@@ -30,7 +30,6 @@ public class Complaint {
     @ApiModelProperty(notes = "The database generated complaint ID")
     private Long id;
    
-    @Size(min=3, max = 50)
     @Column(name = "whistleblower")
     @ApiModelProperty(notes = "The whistleblower of the complaint")
     private String whistleblower;
@@ -48,9 +47,11 @@ public class Complaint {
     public Complaint() {
     }
    
-    public Complaint(String whistleblower, String type) {
+    public Complaint(String whistleblower, String type, String information) {
       this.whistleblower = whistleblower;
       this.type = type;
+      this.information = information;
+
     }
 
     public Long getId() {
