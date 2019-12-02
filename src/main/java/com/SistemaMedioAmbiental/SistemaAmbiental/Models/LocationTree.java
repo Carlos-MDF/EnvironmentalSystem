@@ -47,8 +47,11 @@ public class LocationTree {
     @Size(min=3, max = 50)
     @Column(name = "information")
     @ApiModelProperty(notes = "Information about the location of a tree, can be any notes")
-
     private String information;
+
+    @Column(name = "imageLink")
+    @ApiModelProperty(notes = "the link to an image of this Location")
+    private String imageLink;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subClasification_id")
@@ -61,9 +64,10 @@ public class LocationTree {
     public LocationTree() {
     }
    
-    public LocationTree(String name, String information,SubClasification subClasification) {
+    public LocationTree(String name, String information,String imageLink,SubClasification subClasification) {
       this.name = name;
       this.information = information;
+      this.imageLink = imageLink;
       this.subClasification=subClasification;
     }
 
@@ -88,6 +92,15 @@ public class LocationTree {
       public String getInformation() {
         return this.information;
       }
+
+      //Link de la imagen del lugar
+    public void setImageLink(String imageLink) {
+      this.imageLink = imageLink;
+    }
+   
+    public String getImageLink() {
+      return this.imageLink;
+    }
       
       // sub clasificacion
       public void setSubClasification(SubClasification subClasification) {
@@ -100,7 +113,7 @@ public class LocationTree {
 
       @Override
     public String toString() {
-        return "LocationTree [id=" + id + ", name=" + name + ", information=" + information +", subClasification:"+subClasification+"]";
+        return "LocationTree [id=" + id + ", name=" + name + ", information=" + information +", imageLink" + imageLink +", subClasification:"+subClasification+"]";
     }
 
 }

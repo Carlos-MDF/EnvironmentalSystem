@@ -53,6 +53,10 @@ public class SubDistrict {
     @ApiModelProperty(notes = "Information about the sub-district, can be any notes")
     private String information;
 
+    @Column(name = "imageLink")
+    @ApiModelProperty(notes = "the link to an image of this subdistrict")
+    private String imageLink;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subDistrict_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -63,11 +67,12 @@ public class SubDistrict {
     public SubDistrict() {
     }
 
-    public SubDistrict(String name, String cod ,String information,District district) {
+    public SubDistrict(String name, String cod ,String information,String imageLink,District district) {
       this.name = name;
       this.information = information;
       this.cod=cod;
       this.district=district;
+      this.imageLink = imageLink;
     }
 
     public Long getId() {
@@ -101,6 +106,15 @@ public class SubDistrict {
         return this.information;
       }
 
+      //Link de la imagen del subDistrito
+    public void setImageLink(String imageLink) {
+      this.imageLink = imageLink;
+    }
+   
+    public String getImageLink() {
+      return this.imageLink;
+    }
+
       // distrito
       public void setDistrict(District district) {
         this.district= district;
@@ -113,7 +127,6 @@ public class SubDistrict {
 
       @Override
     public String toString() {
-        return "SubDistrict [id=" + id + ", name=" + name + "cod="+cod+", information=" + information +", district="+district+"]";
+        return "SubDistrict [id=" + id + ", name=" + name + "cod=" + cod + ", information=" + information + ", imageLink=" + imageLink + ", district=" + district + "]";
     }
-
 }

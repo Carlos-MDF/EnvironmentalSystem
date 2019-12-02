@@ -93,6 +93,7 @@ public class SubClasificationController {
                     sbC.setName(sb.getName());
                     sbC.setInformation(sb.getInformation());
                     sbC.setClasification(sb.getClasification());
+                    sbC.setImageLink(sb.getImageLink());
                     return subClasificationRepository.save(sb);
                 }).orElseThrow(() -> new ResourceNotFoundException("Sub Clasification not found with id " + id));
     }

@@ -48,13 +48,16 @@ public class Clasification {
     @ApiModelProperty(notes = "Information about the classification, can be any notes")
     private String information;
 
+    @Column(name = "imageLink")
+    @ApiModelProperty(notes = "the link to an image of this clasification")
+    private String imageLink;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subDistrict_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ApiModelProperty(notes = "The sub-district this classification belongs to")
     private SubDistrict subDistrict;
-
     
     public Clasification() {
     }
@@ -86,6 +89,14 @@ public class Clasification {
         return this.information;
       }
 
+      //Link de la imagen del arbol
+      public void setImageLink(String imageLink) {
+        this.imageLink = imageLink;
+      }
+    
+      public String getImageLink() {
+        return this.imageLink;
+      }
       // sub distrito
       public void setSubDistrict(SubDistrict subDistrict) {
         this.subDistrict = subDistrict;
@@ -97,7 +108,7 @@ public class Clasification {
 
       @Override
     public String toString() {
-        return "Clasification [id=" + id + ", name=" + name + ", information=" + information +", subDistrict="+subDistrict+"]";
+        return "Clasification [id=" + id + ", name=" + name + ", information=" + information + ", imageLink" + imageLink +", subDistrict="+subDistrict+"]";
     }
 
 }

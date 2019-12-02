@@ -34,7 +34,6 @@ public class Complaint {
     @ApiModelProperty(notes = "The whistleblower of the complaint")
     private String whistleblower;
 
-
     @Column(name = "information")
     @ApiModelProperty(notes = "Information about the complaint, can be any notes")
     private String information;
@@ -43,6 +42,9 @@ public class Complaint {
     @ApiModelProperty(notes = "Type about the complaint, can be any notes")
     private String type;
 
+    @Column(name = "imageLink")
+    @ApiModelProperty(notes = "the link to an image that can be added to the complaint")
+    private String imageLink;
     
     public Complaint() {
     }
@@ -85,9 +87,20 @@ public class Complaint {
         return this.type;
       }
 
+
+    //Link de una imagen que se puede adjuntar a la queja
+    public void setImageLink(String imageLink) {
+      this.imageLink = imageLink;
+    }
+   
+    public String getImageLink() {
+      return this.imageLink;
+    }
+
+
       @Override
     public String toString() {
-        return "Complaint [id=" + id + ", whistleblower=" + whistleblower + ", information=" + information +", type="+type+"]";
+        return "Complaint [id=" + id + ", whistleblower=" + whistleblower + ", information=" + information +", type="+type+", imageLink" + imageLink + "]";
     }
 
 }

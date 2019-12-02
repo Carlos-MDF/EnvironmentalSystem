@@ -1,6 +1,5 @@
 package com.SistemaMedioAmbiental.SistemaAmbiental.Models;
 
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -72,6 +71,11 @@ public class Tree {
     @ApiModelProperty(notes = "the person responsible for this tree")
     private String responsable;
 
+    @Column(name = "imageLink")
+    @ApiModelProperty(notes = "the link to an image of this tree")
+    private String imageLink;
+
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "locationTree_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -82,7 +86,7 @@ public class Tree {
     public Tree() {
     }
    
-    public Tree(String codeTree, String commonName, String scientificName, Integer treeHeight, Integer cupSize, String responsable, String species, LocationTree locationTree) {
+    public Tree(String codeTree, String commonName, String scientificName, Integer treeHeight, Integer cupSize, String responsable,String imageLink, String species, LocationTree locationTree) {
       this.codeTree = codeTree;
       this.commonName = commonName;
       this.scientificName = scientificName;
@@ -90,6 +94,7 @@ public class Tree {
       this.cupSize = cupSize;
       this.species = species;
       this.responsable = responsable;
+      this.imageLink = imageLink;
       this.locationTree = locationTree;
     }
 
@@ -152,6 +157,15 @@ public class Tree {
       return this.responsable;
     }
 
+    //Link de la imagen del arbol
+    public void setImageLink(String imageLink) {
+      this.imageLink = imageLink;
+    }
+   
+    public String getImageLink() {
+      return this.imageLink;
+    }
+
     //Especie del Arbol
     public void setSpecies(String species) {
       this.species = species;
@@ -172,6 +186,6 @@ public class Tree {
 
      @Override
     public String toString() {
-        return "Tree [id=" + id + ", codeTree=" + codeTree + ", commonName=" + commonName + ", scientificName=" + scientificName + ", treeHeight=" + treeHeight + ", cupSize=" + cupSize + ", species=" + species + ", responsable:" + responsable + ", locationTree" + locationTree +"]";
+        return "Tree [id=" + id + ", codeTree=" + codeTree + ", commonName=" + commonName + ", scientificName=" + scientificName + ", treeHeight=" + treeHeight + ", cupSize=" + cupSize + ", species=" + species + ", responsable:" + responsable + ", imageLink:" + imageLink + ", locationTree" + locationTree +"]";
     }
 }

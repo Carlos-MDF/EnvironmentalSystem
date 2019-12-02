@@ -89,6 +89,10 @@ public class User {
   @ApiModelProperty(notes = "The user's home/work address")
   private String address;
 
+  @Column(name = "imageLink")
+  @ApiModelProperty(notes = "the link to an image of this user")
+  private String imageLink;
+
   @Column(name = "status")
   @ApiModelProperty(notes = "The user's profile status")
   private Boolean status;
@@ -105,7 +109,7 @@ public class User {
   public User() {
   }
  
-  public User(String name, String username, String password, String passwordConfirm, String email, String phone, Long ci, String address) {
+  public User(String name, String username, String password, String passwordConfirm, String email, String phone, Long ci, String address, String imageLink) {
     this.name = name;
     this.username = username;
     this.password = password;
@@ -114,6 +118,7 @@ public class User {
     this.phone = phone;
     this.ci = ci;
     this.address = address;
+    this.imageLink = imageLink;
   }
  
   public Long getId() {
@@ -215,9 +220,18 @@ public void setStatus(Boolean status) {
   this.status = status;
 }
 
+//Link de la imagen del usuario
+public void setImageLink(String imageLink) {
+  this.imageLink = imageLink;
+}
+
+public String getImageLink() {
+  return this.imageLink;
+}
+
  @Override
     public String toString() {
         return "User [id=" + id + ", password=" + password + ", passwordConfirm=" + passwordConfirm + ", email=" + email + ", phone=" + phone + ", ci=" + ci + ", address=" + address 
-       + "]";
+       + ", imageLink=" + imageLink + "]";
     }
 }

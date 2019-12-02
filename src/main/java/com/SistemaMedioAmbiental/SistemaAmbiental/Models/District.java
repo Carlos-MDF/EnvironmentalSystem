@@ -42,7 +42,10 @@ public class District {
     @ApiModelProperty(notes = "The information of a district")
     private String information;
 
-    
+    @Column(name = "imageLink")
+    @ApiModelProperty(notes = "the link to an image of this district")
+    private String imageLink;
+
 
     public District() {
     }
@@ -75,9 +78,18 @@ public class District {
         return this.information;
       }
 
+          //Link de la imagen del distrito
+    public void setImageLink(String imageLink) {
+      this.imageLink = imageLink;
+    }
+   
+    public String getImageLink() {
+      return this.imageLink;
+    }
+
       @Override
     public String toString() {
-        return "District [id=" + id + ", name=" + name +", information=" + information +"]";
+        return "District [id=" + id + ", name=" + name +", information=" + information + ", imageLink=" + imageLink +"]";
     }
 
 }

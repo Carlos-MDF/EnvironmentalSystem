@@ -93,6 +93,7 @@ public class SubDistrictController {
                     sdT.setName(sd.getName());
                     sdT.setInformation(sd.getInformation());
                     sdT.setCod(sd.getCod());
+                    sdT.setImageLink(sd.getImageLink());
                     return subDistrictRepository.save(sd);
                 }).orElseThrow(() -> new ResourceNotFoundException("Sub District not found with id " + id));
     }

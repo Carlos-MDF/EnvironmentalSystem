@@ -96,6 +96,7 @@ public class LocationTreeController {
                 .map(lcT -> {
                     lcT.setName(lc.getName());
                     lcT.setInformation(lc.getInformation());
+                    lcT.setImageLink(lc.getImageLink());
                     lcT.setSubClasification(lc.getSubClasification());
                     return locationTreeRepository.save(lc);
                 }).orElseThrow(() -> new ResourceNotFoundException("Location Tree not found with id " + id));

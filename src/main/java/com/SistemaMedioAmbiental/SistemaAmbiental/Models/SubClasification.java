@@ -49,6 +49,11 @@ public class SubClasification {
     @ApiModelProperty(notes = "Information about the sub-classification, can be any notes")
     private String information;
 
+    @Column(name = "imageLink")
+    @ApiModelProperty(notes = "the link to an image of this subClasification")
+    private String imageLink;
+
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "clasification_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -60,9 +65,10 @@ public class SubClasification {
     public SubClasification() {
     }
    
-    public SubClasification(String name, String information) {
+    public SubClasification(String name, String information,String imageLink) {
       this.name = name;
       this.information = information;
+      this.imageLink = imageLink;
     }
 
     public Long getId() {
@@ -87,6 +93,15 @@ public class SubClasification {
         return this.information;
       }
 
+      //Link de la imagen de la subclasificacion
+      public void setImageLink(String imageLink) {
+        this.imageLink = imageLink;
+      }
+
+      public String getImageLink() {
+        return this.imageLink;
+      }
+
       // clasification
       public void setClasification(Clasification clasification) {
         this.clasification = clasification;
@@ -98,7 +113,7 @@ public class SubClasification {
 
       @Override
     public String toString() {
-        return "SubClasification [id=" + id + ", name=" + name + ", information=" + information +"clasification"+clasification+"]";
+        return "SubClasification [id=" + id + ", name=" + name + ", information=" + information + ", imageLink=" + imageLink + "clasification"+clasification+"]";
     }
 
 }

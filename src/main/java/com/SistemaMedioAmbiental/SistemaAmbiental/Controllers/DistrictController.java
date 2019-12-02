@@ -69,6 +69,7 @@ public class DistrictController {
                 .map(clT -> {
                     clT.setName(cl.getName());
                     clT.setInformation(cl.getInformation());
+                    clT.setImageLink(cl.getImageLink());
                     return districtRepository.save(cl);
                 }).orElseThrow(() -> new ResourceNotFoundException("District not found with id " + id));
     }

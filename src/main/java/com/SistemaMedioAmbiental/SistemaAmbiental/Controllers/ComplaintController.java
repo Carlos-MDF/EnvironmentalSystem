@@ -67,6 +67,7 @@ public class ComplaintController {
                     clT.setWhistleblower(cl.getWhistleblower());
                     clT.setInformation(cl.getInformation());
                     clT.setType(cl.getType());
+                    clT.setImageLink(cl.getImageLink());
                     return complaintRepository.save(cl);
                 }).orElseThrow(() -> new ResourceNotFoundException("Complaint not found with id " + id));
     }

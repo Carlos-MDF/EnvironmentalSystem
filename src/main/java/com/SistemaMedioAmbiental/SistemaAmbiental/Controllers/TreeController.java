@@ -96,6 +96,7 @@ public class TreeController {
                     tree.setTreeHeight(t.getTreeHeight());
                     tree.setSpecies(t.getSpecies());
                     tree.setResponsable(t.getResponsable());
+                    tree.setImageLink(t.getImageLink());
                     tree.setLocationTree(t.getLocationTree());
                     return treeRepository.save(tree);
                 }).orElseThrow(() -> new ResourceNotFoundException("Tree not found with id " + id));
