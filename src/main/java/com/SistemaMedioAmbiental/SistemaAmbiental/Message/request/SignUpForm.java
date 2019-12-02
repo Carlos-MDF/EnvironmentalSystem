@@ -37,6 +37,8 @@ public class SignUpForm {
     @Size(min=6, max = 100)
     private String address;
 
+    private String imageLink;
+
     private Boolean status;
 
     public String getName() {
@@ -109,6 +111,14 @@ public class SignUpForm {
      
     public void setAddress(String address){
         this.address = address;
+    }
+
+    public String getImageLink(){
+        return this.imageLink;
+    }
+     
+    public void setImageLink(String imageLink){
+        this.imageLink = imageLink;
     }
 
     public Boolean getStatus() {

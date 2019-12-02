@@ -107,7 +107,7 @@ public class UserController {
 		}
 
 		// Creating user's account
-		User user = new User(signUpRequest.getName(), signUpRequest.getUsername(), encoder.encode(signUpRequest.getPassword()), encoder.encode(signUpRequest.getPasswordConfirm()), signUpRequest.getEmail(), signUpRequest.getPhone(), signUpRequest.getCi(), signUpRequest.getAddress(), "https://www.watsonmartin.com/wp-content/uploads/2016/03/default-profile-picture.jpg");
+		User user = new User(signUpRequest.getName(), signUpRequest.getUsername(), encoder.encode(signUpRequest.getPassword()), encoder.encode(signUpRequest.getPasswordConfirm()), signUpRequest.getEmail(), signUpRequest.getPhone(), signUpRequest.getCi(), signUpRequest.getAddress(),signUpRequest.getImageLink());
 
 		Set<String> strRoles = signUpRequest.getRole();
 		Set<Role> roles = new HashSet<>();
