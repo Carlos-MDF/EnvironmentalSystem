@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface FeedbackRepository extends JpaRepository<Feedback, Long> {
-    Feedback findByTreeSpecies(String treeSpecies);
+    Feedback findByPerson(String person);
     Feedback findById(long id);
 }

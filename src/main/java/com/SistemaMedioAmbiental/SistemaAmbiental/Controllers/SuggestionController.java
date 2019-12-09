@@ -64,7 +64,7 @@ public class SuggestionController {
         
         return suggestionRepository.findById(id)
                 .map(clT -> {
-                    clT.setUser(cl.getUser());
+                    clT.setPerson(cl.getPerson());
                     clT.setInformation(cl.getInformation());
                     clT.setType(cl.getType());
                     return suggestionRepository.save(cl);

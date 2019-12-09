@@ -26,9 +26,9 @@ public class Suggestion {
     @ApiModelProperty(notes = "The database generated suggestion ID")
     private Long id;
    
-    @Column(name = "user")
-    @ApiModelProperty(notes = "The user of the suggestion")
-    private String user;
+    @Column(name = "person")
+    @ApiModelProperty(notes = "The person of the suggestion")
+    private String person;
 
     @Column(name = "information")
     @ApiModelProperty(notes = "Information about the suggestion, can be any notes")
@@ -41,8 +41,8 @@ public class Suggestion {
     public Suggestion() {
     }
    
-    public Suggestion(String user, String type, String information) {
-      this.user = user;
+    public Suggestion(String person, String type, String information) {
+      this.person = person;
       this.type = type;
       this.information = information;
 
@@ -53,12 +53,12 @@ public class Suggestion {
       }
     
       // Usuario que hace la sugerencia
-      public void setUser(String user) {
-        this.user = user;
+      public void setPerson(String person) {
+        this.person = person;
       }
      
-      public String getUser() {
-        return this.user;
+      public String getPerson() {
+        return this.person;
       }
 
       // Informacion de la sugerencia
@@ -82,6 +82,6 @@ public class Suggestion {
 
       @Override
     public String toString() {
-        return "Suggestion [id=" + id + ", user=" + user + ", information=" + information +", type=" + type + "]";
+        return "Suggestion [id=" + id + ", person=" + person + ", information=" + information +", type=" + type + "]";
     }
 }

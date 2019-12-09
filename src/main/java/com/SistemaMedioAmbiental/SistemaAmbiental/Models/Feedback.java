@@ -26,6 +26,10 @@ public class Feedback {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @ApiModelProperty(notes = "The database generated feedback ID")
     private Long id;
+
+    @Column(name = "person")
+    @ApiModelProperty(notes = "The person which the feedback belongs to")
+    private String person;
    
     @Column(name = "treeSpecies")
     @ApiModelProperty(notes = "The species which the tree belongs to")
@@ -54,7 +58,8 @@ public class Feedback {
     public Feedback() {
     }
    
-    public Feedback(String treeSpecies, String flowering, String fructification, String defoliation, String foliation) {
+    public Feedback(String person, String treeSpecies, String flowering, String fructification, String defoliation, String foliation) {
+      this.person = person;
       this.treeSpecies = treeSpecies;
       this.flowering = flowering;
       this.fructification = fructification;
@@ -65,8 +70,17 @@ public class Feedback {
     public Long getId() {
         return id;
       }
+
+      // Usuario que hace la retralimentacion
+      public void setPerson(String person) {
+        this.person = person;
+      }
+     
+      public String getPerson() {
+        return this.person;
+      }
     
-      // Usuario que hace la sugerencia
+     //Especie del arbol
       public void setTreeSpecies(String treeSpecies) {
         this.treeSpecies = treeSpecies;
       }
@@ -122,9 +136,9 @@ public class Feedback {
     }
 
 
-      @Override
+    @Override
     public String toString() {
-        return "Feedback [id=" + id + ", treeSpecies=" + treeSpecies + ", flowering=" + flowering +", fructification=" + fructification + ", defoliation=" + foliation + ", foliation=" + defoliation + ", imageLink" + imageLink + "]";
+        return "Feedback [id=" + id + ", person=" + person + ", treeSpecies=" + treeSpecies + ", flowering=" + flowering +", fructification=" + fructification + ", defoliation=" + foliation + ", foliation=" + defoliation + ", imageLink" + imageLink + "]";
     }
 
 }

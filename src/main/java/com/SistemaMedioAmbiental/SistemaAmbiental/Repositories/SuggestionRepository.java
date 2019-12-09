@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SuggestionRepository extends JpaRepository<Suggestion, Long> {
-    Suggestion findByUser(String user);
+    Suggestion findByPerson(String person);
     Suggestion findById(long id);
 }

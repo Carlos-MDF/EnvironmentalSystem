@@ -64,6 +64,7 @@ public class FeedbackController {
         
         return feedbackRepository.findById(id)
                 .map(clT -> {
+                    clT.setPerson(cl.getPerson());
                     clT.setTreeSpecies(cl.getTreeSpecies());
                     clT.setFlowering(cl.getFlowering());
                     clT.setFructification(cl.getFructification());
