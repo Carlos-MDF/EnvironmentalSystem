@@ -15,10 +15,7 @@ import io.swagger.annotations.ApiModelProperty;
 @Entity
 @Table(name = "districts", uniqueConstraints = {
         @UniqueConstraint(columnNames = {
-          "name"
-        }),
-        @UniqueConstraint(columnNames = {
-          "information"
+          "id"
         })
 })
 
@@ -43,7 +40,7 @@ public class District {
     private String information;
 
     @Column(name = "imageLink")
-    @ApiModelProperty(notes = "the link to an image of this district")
+    @ApiModelProperty(notes = "The link to an image of this district")
     private String imageLink;
 
 
@@ -59,7 +56,7 @@ public class District {
         return id;
       }
     
-      // nombre de la sub clasificacion
+      // Nombre del distrito
       public void setName(String name) {
         this.name = name;
       }
@@ -69,7 +66,7 @@ public class District {
       }
 
 
-      // informacion de la sub clasificacion
+      // Informacion del distrito
       public void setInformation(String information) {
         this.information = information;
       }
@@ -78,14 +75,14 @@ public class District {
         return this.information;
       }
 
-          //Link de la imagen del distrito
-    public void setImageLink(String imageLink) {
-      this.imageLink = imageLink;
-    }
+      //Link de la imagen del distrito
+      public void setImageLink(String imageLink) {
+        this.imageLink = imageLink;
+      }
    
-    public String getImageLink() {
-      return this.imageLink;
-    }
+      public String getImageLink() {
+        return this.imageLink;
+      }
 
       @Override
     public String toString() {

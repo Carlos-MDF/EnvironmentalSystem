@@ -23,10 +23,7 @@ import io.swagger.annotations.ApiModelProperty;
 @Entity
 @Table(name = "trees", uniqueConstraints = {
         @UniqueConstraint(columnNames = {
-          "codeTree"
-        }),
-        @UniqueConstraint(columnNames = {
-          "scientificName"
+          "id"
         })
 })
 

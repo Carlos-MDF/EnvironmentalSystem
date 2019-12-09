@@ -15,9 +15,6 @@ import io.swagger.annotations.ApiModelProperty;
 @Entity
 @Table(name = "complaints", uniqueConstraints = {
         @UniqueConstraint(columnNames = {
-          "information"
-        }),
-        @UniqueConstraint(columnNames = {
           "id"
         })
 })
@@ -43,7 +40,7 @@ public class Complaint {
     private String type;
 
     @Column(name = "imageLink")
-    @ApiModelProperty(notes = "the link to an image that can be added to the complaint")
+    @ApiModelProperty(notes = "The link to an image that can be added to the complaint")
     private String imageLink;
     
     public Complaint() {
@@ -60,7 +57,7 @@ public class Complaint {
         return id;
       }
     
-      // nombre de la sub clasificacion
+      // Denunciante
       public void setWhistleblower(String whistleblower) {
         this.whistleblower = whistleblower;
       }
@@ -69,7 +66,7 @@ public class Complaint {
         return this.whistleblower;
       }
 
-      // informacion de la sub clasificacion
+      // Informacion de la denuncia
       public void setInformation(String information) {
         this.information = information;
       }
@@ -78,7 +75,7 @@ public class Complaint {
         return this.information;
       }
 
-      // type
+      // Tipo de la denuncia
       public void setType(String type) {
         this.type = type;
       }
