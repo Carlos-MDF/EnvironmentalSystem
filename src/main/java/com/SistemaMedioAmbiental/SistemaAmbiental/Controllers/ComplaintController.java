@@ -68,6 +68,8 @@ public class ComplaintController {
                     clT.setInformation(cl.getInformation());
                     clT.setType(cl.getType());
                     clT.setImageLink(cl.getImageLink());
+                    clT.setLatitude(cl.getLatitude());
+                    clT.setLongitude(cl.getLongitude());
                     return complaintRepository.save(cl);
                 }).orElseThrow(() -> new ResourceNotFoundException("Complaint not found with id " + id));
     }
