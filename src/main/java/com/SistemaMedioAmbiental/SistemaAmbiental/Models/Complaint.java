@@ -58,8 +58,8 @@ public class Complaint {
       this.whistleblower = whistleblower;
       this.type = type;
       this.information = information;
-      //this.latitude = latitude;
-      //this.longitude = longitude;
+      this.latitude = latitude;
+      this.longitude = longitude;
     }
 
     public Long getId() {
@@ -111,12 +111,12 @@ public class Complaint {
       return this.latitude;
     }
 
-    public void setLongitude(Float latitude) {
-      this.latitude = latitude;
+    public void setLongitude(Float longitude) {
+      this.longitude = longitude;
     }
    
     public Float getLongitude() {
-      return this.latitude;
+      return this.longitude;
     }
 
 
