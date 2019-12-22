@@ -41,13 +41,13 @@ public class Tree {
     private String codeTree;
    
     
-    @Size(min=3, max = 50)
+    @Size(min=2, max = 50)
     @Column(name = "commonName")
     @ApiModelProperty(notes = "The common name this tree is referred as")
     private String commonName;
   
     
-    @Size(min=6, max = 100)
+    @Size(min=2, max = 100)
     @Column(name = "scientificName")
     @ApiModelProperty(notes = "The scientific name of the tree")
     private String scientificName;
