@@ -8,7 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -42,7 +41,16 @@ public class Complaint {
     @Column(name = "imageLink")
     @ApiModelProperty(notes = "The link to an image that can be added to the complaint")
     private String imageLink;
+
+    @Column(name = "latitude")
+    @ApiModelProperty(notes = "The latitude coordinate of the event location")
+    private Float latitude;
     
+    @Column(name = "longitude")
+    @ApiModelProperty(notes = "The longitude coordinate of the event location")
+    private Float longitude;
+
+
     public Complaint() {
     }
    
@@ -50,7 +58,8 @@ public class Complaint {
       this.whistleblower = whistleblower;
       this.type = type;
       this.information = information;
-
+      this.latitude = latitude;
+      this.longitude = longitude;
     }
 
     public Long getId() {
@@ -94,10 +103,26 @@ public class Complaint {
       return this.imageLink;
     }
 
+    public void setLatitude(Float latitude) {
+      this.latitude = latitude;
+    }
+   
+    public Float getLatitude() {
+      return this.latitude;
+    }
 
-      @Override
+    public void setLongitude(Float longitude) {
+      this.longitude = longitude;
+    }
+   
+    public Float getLongitude() {
+      return this.longitude;
+    }
+
+
+    @Override
     public String toString() {
-        return "Complaint [id=" + id + ", whistleblower=" + whistleblower + ", information=" + information +", type="+type+", imageLink" + imageLink + "]";
+        return "Complaint [id=" + id + ", whistleblower=" + whistleblower + ", information=" + information +", type="+type+", imageLink" + imageLink + ", latitude="+ latitude + ", longitude=" + longitude + "]";
     }
 
 }
