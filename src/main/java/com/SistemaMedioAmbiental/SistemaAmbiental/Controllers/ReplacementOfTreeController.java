@@ -1,10 +1,12 @@
 package com.SistemaMedioAmbiental.SistemaAmbiental.Controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import com.SistemaMedioAmbiental.SistemaAmbiental.Message.Exception.ResourceNotFoundException;
 import com.SistemaMedioAmbiental.SistemaAmbiental.Models.ReplacementOfTree;
+import com.SistemaMedioAmbiental.SistemaAmbiental.Repositories.LocationTreeRepository;
 import com.SistemaMedioAmbiental.SistemaAmbiental.Repositories.ReplacementOfTreeRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +35,10 @@ import io.swagger.annotations.ApiResponses;
 public class ReplacementOfTreeController {
     @Autowired
     ReplacementOfTreeRepository replacementOfTreeRepository;
+    @Autowired
+    LocationTreeRepository locationTreeRepository;
+
+
 
     @ApiOperation(value = "View a list of available ReplacementsOfTrees", response = List.class)
     @ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved list of complaints"),
@@ -44,6 +50,23 @@ public class ReplacementOfTreeController {
         return replacementOfTreeRepository.findAll();
     }
 
+    @ApiOperation(value = "View a list of available ReplacementsOfTrees", response = List.class)
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved list of complaints"),
+            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = 404, message = "The resource you were trying to reach has not been found") })
+    @GetMapping("/{id}/replacementOfTree")
+    public List<ReplacementOfTree> showReplacementsOfTreesLocations(@PathVariable("id") Long id) {
+        List<ReplacementOfTree> arboles= replacementOfTreeRepository.findAll();
+       List<ReplacementOfTree> aux= new ArrayList<>();
+        for(Integer i = 0;i< arboles.size();i++){
+            if(arboles.get(i).getLocationTree().getId() == id ){
+                aux.add(arboles.get(i));
+            }
+        } 
+        return aux;
+    }
+
     @ApiOperation(value = "Get a treatmentTree by Id")
     @GetMapping("/replacementOfTree/{id}")
     public Optional<ReplacementOfTree> showReplacementTree(@PathVariable("id") Long id) {
@@ -51,10 +74,14 @@ public class ReplacementOfTreeController {
     }
 
     @ApiOperation(value = "Add a treatmentTree")
-    @PostMapping("/replacementOfTree")
+    @PostMapping("/{id}/replacementOfTree")
     @ResponseStatus(HttpStatus.CREATED)
-    public ReplacementOfTree create(@RequestBody ReplacementOfTree cm) {
-        return replacementOfTreeRepository.save(cm);
+    public ReplacementOfTree create(@RequestBody ReplacementOfTree cm,@PathVariable("id") Long id) {
+        return locationTreeRepository.findById(id).map(lc ->{
+            cm.setLocationTree(lc);
+            return replacementOfTreeRepository.save(cm);
+        }).orElseThrow(() -> new ResourceNotFoundException("Location Tree " + id + " not found"));    
+        
     }
 
     @ApiOperation(value = "Update a treatmentTree")
@@ -68,6 +95,7 @@ public class ReplacementOfTreeController {
                     clT.setEliminationOfCompetition(cl.getEliminationOfCompetition());
                     clT.setDateOfReplacement(cl.getDateOfReplacement());
                     clT.setTree(cl.getTree());
+                    clT.setLocationTree(cl.getLocationTree());
                     return replacementOfTreeRepository.save(cl);
                 }).orElseThrow(() -> new ResourceNotFoundException("ReplacementOfTree not found with id " + id));
     }

@@ -54,7 +54,7 @@ public class Complaint {
     public Complaint() {
     }
    
-    public Complaint(String whistleblower, String type, String information) {
+    public Complaint(String whistleblower, String type, String information, Float latitude, Float longitude) {
       this.whistleblower = whistleblower;
       this.type = type;
       this.information = information;

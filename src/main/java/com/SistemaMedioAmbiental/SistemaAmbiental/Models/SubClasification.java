@@ -10,7 +10,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -36,12 +35,10 @@ public class SubClasification {
     @ApiModelProperty(notes = "The database generated sub-classification ID")
     private Long id;
    
-    @Size(min=3, max = 50)
     @Column(name = "name")
     @ApiModelProperty(notes = "The name of the sub-classification")
     private String name;
 
-    @Size(min=3, max = 50)
     @Column(name = "information")
     @ApiModelProperty(notes = "Information about the sub-classification, can be any notes")
     private String information;

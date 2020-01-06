@@ -1,10 +1,12 @@
 package com.SistemaMedioAmbiental.SistemaAmbiental.Controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import com.SistemaMedioAmbiental.SistemaAmbiental.Message.Exception.ResourceNotFoundException;
 import com.SistemaMedioAmbiental.SistemaAmbiental.Models.TreatmentTree;
+import com.SistemaMedioAmbiental.SistemaAmbiental.Repositories.LocationTreeRepository;
 import com.SistemaMedioAmbiental.SistemaAmbiental.Repositories.TreatmentTreeRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,9 @@ public class TreatmentTreeController {
     @Autowired
     TreatmentTreeRepository treatmentTreeRepository;
 
+    @Autowired
+    LocationTreeRepository locationTreeRepository;
+
     @ApiOperation(value = "View a list of available treatmentsTree", response = List.class)
     @ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved list of complaints"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
@@ -44,6 +49,23 @@ public class TreatmentTreeController {
         return treatmentTreeRepository.findAll();
     }
 
+    @ApiOperation(value = "View a list of available ReplacementsOfTrees", response = List.class)
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved list of complaints"),
+            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = 404, message = "The resource you were trying to reach has not been found") })
+    @GetMapping("/{id}/treatmentTree")
+    public List<TreatmentTree> showTretmentsTreeLocation(@PathVariable("id") Long id) {
+        List<TreatmentTree> arboles= treatmentTreeRepository.findAll();
+       List<TreatmentTree> aux= new ArrayList<>();
+        for(Integer i = 0;i< arboles.size();i++){
+            if(arboles.get(i).getLocationTree().getId() == id ){
+                aux.add(arboles.get(i));
+            }
+        } 
+        return aux;
+    }
+
     @ApiOperation(value = "Get a treatmentTree by Id")
     @GetMapping("/treatmentTree/{id}")
     public Optional<TreatmentTree> showTreatmentTree(@PathVariable("id") Long id) {
@@ -51,10 +73,14 @@ public class TreatmentTreeController {
     }
 
     @ApiOperation(value = "Add a treatmentTree")
-    @PostMapping("/treatmentTree")
+    @PostMapping("/{id}/treatmentTree")
     @ResponseStatus(HttpStatus.CREATED)
-    public TreatmentTree create(@RequestBody TreatmentTree cm) {
-        return treatmentTreeRepository.save(cm);
+    public TreatmentTree create(@RequestBody TreatmentTree cm,@PathVariable("id") Long id) {
+        return locationTreeRepository.findById(id).map(lc ->{
+            cm.setLocationTree(lc);
+            return treatmentTreeRepository.save(cm);
+        }).orElseThrow(() -> new ResourceNotFoundException("Location Tree " + id + " not found"));    
+        
     }
 
     @ApiOperation(value = "Update a treatmentTree")
@@ -68,6 +94,7 @@ public class TreatmentTreeController {
                     clT.setSuggestedTreatment(cl.getSuggestedTreatment());
                     clT.setRealizedTreatment(cl.getRealizedTreatment());
                     clT.setTree(cl.getTree());
+                    clT.setLocationTree(cl.getLocationTree());
                     return treatmentTreeRepository.save(cl);
                 }).orElseThrow(() -> new ResourceNotFoundException("TreatmentTree not found with id " + id));
     }

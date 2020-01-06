@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -45,6 +46,13 @@ public class TreatmentTree {
     @Column(name = "realizedTreatment")
     @ApiModelProperty(notes = "The treatment that has been realized to the tree")
     private String realizedTreatment;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "locationTree_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @ApiModelProperty(notes = "The information about this tree's location")
+    private LocationTree locationTree;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tree_id")
@@ -101,6 +109,15 @@ public class TreatmentTree {
     public Tree getTree() {
         return this.tree;
     }
+
+    //locationTreeId
+    public void setLocationTree(LocationTree l) {
+        this.locationTree=l;
+      }
+     
+      public LocationTree getLocationTree() {
+        return this.locationTree;
+      }
 
     @Override
     public String toString() {
